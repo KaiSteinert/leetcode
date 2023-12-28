@@ -30,6 +30,7 @@ public class N104_MaximumDepthBinaryTree {
         int depth = 0;
         int counter = 0;
         while (nonNull(current) || !stack.isEmpty()) {
+
             while (nonNull(current)) {
                 stack.push(current);
                 current = current.left;
@@ -38,6 +39,9 @@ public class N104_MaximumDepthBinaryTree {
             current = stack.pop();
             if (nonNull(current.left) && nonNull(current.right)) {
                 counter--;
+            }
+            if (root.equals(current)) {
+                counter = 1;
             }
             current = current.right;
             if (counter > depth) {

@@ -9,6 +9,28 @@ public class N104_MaximumDepthBinaryTreeTest {
     @Test
     public void maxDepthTest() {
 
+        assertEquals(4,
+                N104_MaximumDepthBinaryTree.maxDepth(
+                        new TreeNode(
+                                0,
+                                new TreeNode(
+                                        2,
+                                        new TreeNode(
+                                                1,
+                                                new TreeNode(5),
+                                                new TreeNode(1)),
+                                        null),
+                                new TreeNode(
+                                        4,
+                                        new TreeNode(
+                                                3,
+                                                null,
+                                                new TreeNode(6)),
+                                        new TreeNode(
+                                                -1,
+                                                null,
+                                                new TreeNode(8))))));
+
         assertEquals(3,
                 N104_MaximumDepthBinaryTree.maxDepth(
                         new TreeNode(
