@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class N104_MaximumDepthBinaryTreeTest {
 
     @Test
-    public void maxDepthTest() {
-
+    public void maxDepthTest3() {
         assertEquals(4,
                 N104_MaximumDepthBinaryTree.maxDepth(
                         new TreeNode(
@@ -30,20 +29,10 @@ public class N104_MaximumDepthBinaryTreeTest {
                                                 -1,
                                                 null,
                                                 new TreeNode(8))))));
+    }
 
-        assertEquals(3,
-                N104_MaximumDepthBinaryTree.maxDepth(
-                        new TreeNode(
-                                1,
-                                new TreeNode(
-                                        2,
-                                        new TreeNode(4),
-                                        null),
-                                new TreeNode(
-                                        3,
-                                        null,
-                                        new TreeNode(5)))));
-
+    @Test
+    public void maxDepthTest2() {
         assertEquals(5,
                 N104_MaximumDepthBinaryTree.maxDepth(
                         new TreeNode(
@@ -59,6 +48,23 @@ public class N104_MaximumDepthBinaryTreeTest {
                                                         5,
                                                         null,
                                                         new TreeNode(6)))))));
+    }
+
+    @Test
+    public void maxDepthTest() {
+
+        assertEquals(3,
+                N104_MaximumDepthBinaryTree.maxDepth(
+                        new TreeNode(
+                                1,
+                                new TreeNode(
+                                        2,
+                                        new TreeNode(4),
+                                        null),
+                                new TreeNode(
+                                        3,
+                                        null,
+                                        new TreeNode(5)))));
 
         assertEquals(3,
                 N104_MaximumDepthBinaryTree.maxDepth(
