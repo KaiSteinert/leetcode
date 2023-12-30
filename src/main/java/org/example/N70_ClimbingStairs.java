@@ -1,6 +1,6 @@
 package org.example;
 
-import java.util.*;
+import java.util.Arrays;
 
 public class N70_ClimbingStairs {
     /**
@@ -50,20 +50,67 @@ public class N70_ClimbingStairs {
 
 
     public static boolean isValidStepSeq(long[] arr) {
-        if (arr[arr.length-1] == 2) {
+        if (arr[arr.length - 1] == 2) {
             return false;
         }
-        for (int idx=0; idx<arr.length-1; idx++){
-            if (arr[idx] == 2 && arr[idx+1] == 2) {
+        for (int idx = 0; idx < arr.length - 1; idx++) {
+            if (arr[idx] == 2 && arr[idx + 1] == 2) {
                 return false;
             }
         }
         return true;
     }
 
+    public static boolean isValidStep(long[] pathCounter, long[] levelStartIdx) {
+        long[] seq = new long[pathCounter.length];
+        for (int idxLevel = levelStartIdx.length - 1; idxLevel >= 0; idxLevel--) {
+            long idx = levelStartIdx[idxLevel] + pathCounter[idxLevel];
+            if (idx % 2 == 0) {
+                seq[idxLevel] = 1;
+            } else {
+                seq[idxLevel] = 2;
+            }
+        }
+        // System.out.printf("Num: %s %s %s%n", pathNumber, Arrays.toString(pathCounter), isValidStepSeq(seq));
+        final String BG;
+        if (isValidStepSeq(seq)) {
+            BG = ANSI_GREEN;
+        } else {
+            BG = ANSI_RED;
+        }
+        System.out.printf(BG + " %s %n" + ANSI_RESET, Arrays.toString(pathCounter));
+        return isValidStepSeq(seq);
+    }
+
+    public static boolean adjacentNodesAreOdd(long[] pathCounter, int firstIdx, int secondIdx) {
+        return pathCounter[firstIdx] % 2 == 1 && pathCounter[secondIdx] % 2 == 1;
+    }
+
+    public static boolean lastNodeIsOdd(long[] pathCounter) {
+        return pathCounter[pathCounter.length - 1] % 2 == 1;
+    }
+
+    public static void findOnlyValidStepSeq(long[] pathCounter) {
+        for (int pathIdx = 0; pathIdx < pathCounter.length - 1; pathIdx++) {
+            int nextIdx = pathIdx + 1;
+            if (adjacentNodesAreOdd(pathCounter, pathIdx, nextIdx)) {
+                long decrement = 1;
+                while (nextIdx < pathCounter.length) {
+                    pathCounter[nextIdx] -= decrement;
+                    decrement *= 2;
+                    nextIdx++;
+                }
+            }
+        }
+
+        if (lastNodeIsOdd(pathCounter)) {
+            pathCounter[pathCounter.length - 1] -= 1;
+        }
+    }
+
     public static long[] initializePathCounter(long[] nodesPerLevel) {
         long[] pathCounter = Arrays.copyOf(nodesPerLevel, nodesPerLevel.length);
-        for (int idx=0; idx < pathCounter.length; idx++) {
+        for (int idx = 0; idx < pathCounter.length; idx++) {
             pathCounter[idx] -= 1;
         }
         return pathCounter;
@@ -72,12 +119,12 @@ public class N70_ClimbingStairs {
     public static int climbStairs(int n) {
         long[] levelStartIdx = new long[n];
         long[] nodesPerLevel = new long[n];
-        int totalNumOfNodes = 0;
-        for (int idx=0; idx < levelStartIdx.length; idx++) {
-            int level = (int) Math.pow(2, idx+1);
+        long totalNumOfNodes = 0;
+        for (int idx = 0; idx < levelStartIdx.length; idx++) {
+            long level = (long) Math.pow(2, idx + 1);
             totalNumOfNodes += level;
             nodesPerLevel[idx] = level;
-            int next = idx+1;
+            int next = idx + 1;
             if (next < levelStartIdx.length) {
                 levelStartIdx[next] = totalNumOfNodes;
             }
@@ -85,30 +132,15 @@ public class N70_ClimbingStairs {
 
         long[] pathCounter = initializePathCounter(nodesPerLevel);
         long resultCounter = 0;
-        long[] seq = new long[pathCounter.length];
-        while (pathCounter[pathCounter.length-1] >= 0){
+        while (pathCounter[pathCounter.length - 1] >= 0) {
 
-            for (int idxLevel=levelStartIdx.length-1; idxLevel >= 0; idxLevel--) {
-                long idx = levelStartIdx[idxLevel]+pathCounter[idxLevel];
-                if (idx % 2 == 0) {
-                    seq[idxLevel] = 1;
-                } else {
-                    seq[idxLevel] = 2;
-                }
-            }
-            if (isValidStepSeq(seq)) {
-                // stepSeqs.add(seq);
-                resultCounter++;
-            }
-            // System.out.printf("Num: %s %s %s%n", pathNumber, Arrays.toString(pathCounter), isValidStepSeq(seq));
-            final String BG;
-            if (isValidStepSeq(seq)) {
-                BG = ANSI_GREEN;
-            } else {
-                BG = ANSI_RED;
-            }
-            System.out.printf(BG+" %s %n"+ANSI_RESET, Arrays.toString(pathCounter));
-            for (int idxLevel=pathCounter.length-1; idxLevel >= 0; idxLevel--) {
+            findOnlyValidStepSeq(pathCounter);
+
+            //if (isValidStep(pathCounter, levelStartIdx)) {
+            resultCounter++;
+            //}
+
+            for (int idxLevel = pathCounter.length - 1; idxLevel >= 0; idxLevel--) {
                 if (pathCounter[idxLevel] % 2 != 0) {
                     pathCounter[idxLevel] -= 1;
                     break;

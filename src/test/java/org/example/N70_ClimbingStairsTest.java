@@ -9,6 +9,7 @@ public class N70_ClimbingStairsTest {
     @Test
     public void climbStairsTest() {
         // N70_ClimbingStairs.climbStairs(4);
+        assertEquals(14930352, N70_ClimbingStairs.climbStairs(35));
         assertEquals(5, N70_ClimbingStairs.climbStairs(4));
         assertEquals(3, N70_ClimbingStairs.climbStairs(3));
         assertEquals(55, N70_ClimbingStairs.climbStairs(9));
@@ -16,6 +17,5 @@ public class N70_ClimbingStairsTest {
         assertEquals(2, N70_ClimbingStairs.climbStairs(2));
         assertEquals(8, N70_ClimbingStairs.climbStairs(5));
         assertEquals(21, N70_ClimbingStairs.climbStairs(7));
-        //assertEquals(3, N70_ClimbingStairs.climbStairs(35));
     }
 }
