@@ -1,6 +1,8 @@
 package org.example;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class N70_ClimbingStairs {
     /**
@@ -116,7 +118,7 @@ public class N70_ClimbingStairs {
         return pathCounter;
     }
 
-    public static int climbStairs(int n) {
+    public static int climbStairsLikeAnOldMan(int n) {
         long[] levelStartIdx = new long[n];
         long[] nodesPerLevel = new long[n];
         long totalNumOfNodes = 0;
@@ -136,9 +138,9 @@ public class N70_ClimbingStairs {
 
             findOnlyValidStepSeq(pathCounter);
 
-            //if (isValidStep(pathCounter, levelStartIdx)) {
+            if (isValidStep(pathCounter, levelStartIdx)) {
             resultCounter++;
-            //}
+            }
 
             for (int idxLevel = pathCounter.length - 1; idxLevel >= 0; idxLevel--) {
                 if (pathCounter[idxLevel] % 2 != 0) {
@@ -150,5 +152,32 @@ public class N70_ClimbingStairs {
             }
         }
         return (int) resultCounter;
+    }
+
+    public static final Map<String, Integer> climpingMap = new HashMap<>();
+
+    public static int climbStairsRec(int n, int step) {
+        String key = String.format("%s_%s", Integer.toString(n), Integer.toString(step));
+        if (n == 1) {
+            return 1;
+        }
+        if (climpingMap.containsKey(key)) {
+            return climpingMap.get(key);
+        }
+        if (step == 1) {
+            int value = climbStairsRec(n-1, 1) + climbStairsRec(n-1, 2);
+            climpingMap.put(key, value);
+            return value;
+        }
+        if (step == 2) {
+            int value = climbStairsRec(n-1, 1);
+            climpingMap.put(key, value);
+            return value;
+        }
+        return 0;
+    }
+
+    public static int climbStairs(int n) {
+        return climbStairsRec(n, 1);
     }
 }
