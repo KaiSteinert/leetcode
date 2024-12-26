@@ -33,6 +33,35 @@ public class N104_MaximumDepthBinaryTree {
 
             while (nonNull(current)) {
                 stack.push(current);
+                if(nonNull(current.right)) {
+                    stack.push(current.right);
+                }
+                current = current.left;
+                counter++;
+            }
+            current = stack.pop();
+            if (nonNull(current.left) && nonNull(current.right)) {
+                counter--;
+            }
+            if (root.equals(current)) {
+                counter = 1;
+            }
+            if (counter > depth) {
+                depth = counter;
+            }
+        }
+        return depth;
+    }
+
+    public static int maxDepth_Bck(TreeNode root) {
+        TreeNode current = root;
+        Stack<TreeNode> stack = new Stack<>();
+        int depth = 0;
+        int counter = 0;
+        while (nonNull(current) || !stack.isEmpty()) {
+
+            while (nonNull(current)) {
+                stack.push(current);
                 current = current.left;
                 counter++;
             }
@@ -51,26 +80,4 @@ public class N104_MaximumDepthBinaryTree {
         return depth;
     }
 
-    public static int maxDepthBck(TreeNode root) {
-        TreeNode current = root;
-        Stack<TreeNode> stack = new Stack<>();
-        int depth = 0;
-        int counter = 0;
-        while (nonNull(current) || !stack.isEmpty()) {
-            while (nonNull(current)) {
-                stack.push(current);
-                current = current.left;
-                counter++;
-            }
-            current = stack.pop();
-            if (nonNull(current.left) && nonNull(current.right)) {
-                counter--;
-            }
-            current = current.right;
-            if (counter > depth) {
-                depth = counter;
-            }
-        }
-        return depth;
-    }
 }
